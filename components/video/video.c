@@ -302,10 +302,12 @@ static esp_err_t video_device_open(video_fmt_t fmt) {
     flip_ctrl.value = 1;
     if (ioctl(fd, VIDIOC_S_EXT_CTRLS, &flip_ctrls))
       ESP_LOGW(TAG, "SC2336 VFLIP failed");
-    flip_ctrl.id = V4L2_CID_HFLIP;
-    flip_ctrl.value = 1;
-    if (ioctl(fd, VIDIOC_S_EXT_CTRLS, &flip_ctrls))
-      ESP_LOGW(TAG, "SC2336 HFLIP failed");
+        if (s_sensor_kind == SENSOR_KIND_SC2336) {
+      flip_ctrl.id = V4L2_CID_HFLIP;
+      flip_ctrl.value = 1;
+      if (ioctl(fd, VIDIOC_S_EXT_CTRLS, &flip_ctrls))
+        ESP_LOGW(TAG, "SC2336 HFLIP failed");
+    }
   }
 
   app_video.has_focus_motor = query_focus_motor();
