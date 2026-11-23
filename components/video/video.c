@@ -292,7 +292,8 @@ static esp_err_t video_device_open(video_fmt_t fmt) {
 
   // SC2336 on the CrowPanel 7" camera module is mounted upside-down.
   // Apply 180° rotation in-sensor (free, vs PPA/CPU cost).
-  if (s_sensor_kind == SENSOR_KIND_SC2336) {
+    if (s_sensor_kind == SENSOR_KIND_SC2336 ||
+      s_sensor_kind == SENSOR_KIND_OV5647) {
     struct v4l2_ext_controls flip_ctrls = {.ctrl_class = V4L2_CTRL_CLASS_USER,
                                            .count = 1};
     struct v4l2_ext_control flip_ctrl = {0};
